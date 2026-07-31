@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🏪 ShopStatus — Is it open?</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🏪</span>
+        <div>
+          <h1>ShopStatus</h1>
+          <p class="tagline">Is your nearby shop open right now?</p>
+        </div>
+      </div>
+      <button class="btn-primary" id="openModal">+ Add Shop</button>
+    </div>
+  </header>
+
+  <!-- BANNER -->
+  <section class="banner">
+    <div class="banner-inner">
+      <div class="banner-stat">
+        <span class="stat-num" id="openCount">0</span>
+        <span class="stat-label">Open Now</span>
+      </div>
+      <div class="banner-divider"></div>
+      <div class="banner-stat">
+        <span class="stat-num" id="closedCount">0</span>
+        <span class="stat-label">Closed</span>
+      </div>
+      <div class="banner-divider"></div>
+      <div class="banner-stat">
+        <span class="stat-num" id="totalCount">0</span>
+        <span class="stat-label">Total Shops</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <section class="filter-bar">
+    <div class="filter-inner">
+      <div class="filter-tabs">
+        <button class="tab active" data-filter="all">All</button>
+        <button class="tab" data-filter="open">🟢 Open</button>
+        <button class="tab" data-filter="closed">🔴 Closed</button>
+        <button class="tab" data-filter="unknown">⚪ Unknown</button>
+      </div>
+      <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="🔍 Search shop or area..." />
+      </div>
+    </div>
+    <!-- Category Pills -->
+    <div class="cat-scroll">
+      <button class="cat-pill active" data-cat="all">All</button>
+      <button class="cat-pill" data-cat="grocery">🛒 Grocery</button>
+      <button class="cat-pill" data-cat="medical">💊 Medical</button>
+      <button class="cat-pill" data-cat="clinic">🏥 Clinic</button>
+      <button class="cat-pill" data-cat="restaurant">🍽️ Restaurant</button>
+      <button class="cat-pill" data-cat="salon">✂️ Salon</button>
+      <button class="cat-pill" data-cat="petrol">⛽ Petrol</button>
+      <button class="cat-pill" data-cat="atm">🏧 ATM</button>
+      <button class="cat-pill" data-cat="other">📦 Other</button>
+    </div>
+  </section>
+
+  <!-- FEED -->
+  <main class="feed" id="feed">
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">🏪</div>
+      <h2>No shops listed yet</h2>
+      <p>Add a shop and let your neighbors know if it's open!</p>
+      <button class="btn-primary" id="openModalEmpty">+ Add Shop</button>
+    </div>
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add a Shop</h2>
+        <button class="modal-close" id="closeModal">✕</button>
+      </div>
+
+      <!-- Status Toggle -->
+      <div class="status-picker">
+        <button class="status-btn active" data-status="open">
+          <span class="dot green"></span> Open
+        </button>
+        <button class="status-btn" data-status="closed">
+          <span class="dot red"></span> Closed
+        </button>
+        <button class="status-btn" data-status="unknown">
+          <span class="dot grey"></span> Unknown
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label>Shop Name <span class="req">*</span></label>
+        <input type="text" id="shopName" placeholder="e.g. Sri Murugan Medical Store" maxlength="60"/>
+      </div>
+
+      <div class="form-group">
+        <label>Category <span class="req">*</span></label>
+        <select id="shopCat">
+          <option value="grocery">🛒 Grocery</option>
+          <option value="medical">💊 Medical Store</option>
+          <option value="clinic">🏥 Clinic</option>
+          <option value="restaurant">🍽️ Restaurant</option>
+          <option value="salon">✂️ Salon</option>
+          <option value="petrol">⛽ Petrol Bunk</option>
+          <option value="atm">🏧 ATM</option>
+          <option value="other">📦 Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Area / Street <span class="req">*</span></label>
+        <input type="text" id="shopArea" placeholder="e.g. Anna Nagar 2nd Street" maxlength="60" list="areaSuggestions"/>
+        <datalist id="areaSuggestions">
+          <option value="Anna Nagar">
+          <option value="T. Nagar">
+          <option value="Adyar">
+          <option value="Velachery">
+          <option value="Tambaram">
+          <option value="Perambur">
+          <option value="Chromepet">
+          <option value="Sholinganallur">
+          <option value="Porur">
+          <option value="Guindy">
+          <option value="Mylapore">
+          <option value="Nungambakkam">
+        </datalist>
+      </div>
+
+      <div class="form-group">
+        <label>Note <span class="muted-lbl">(optional)</span></label>
+        <textarea id="shopNote" placeholder="e.g. Opens at 9am, closed on Tuesdays" rows="3" maxlength="200"></textarea>
+        <span class="char-count" id="noteCount">0/200</span>
+      </div>
+
+      <div class="form-group">
+        <label>Reported By <span class="req">*</span></label>
+        <input type="text" id="reporterName" placeholder="e.g. Priya" maxlength="40"/>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" id="cancelBtn">Cancel</button>
+        <button class="btn-primary" id="submitBtn">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
